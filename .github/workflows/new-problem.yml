@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       name:
-        description: 'problem name? (only allow a-z and _)'
+        description: 'problem name? (only allow A-Z and a-z)'
         required: true
         type: string
       runs-on:
