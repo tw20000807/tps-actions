@@ -16,7 +16,7 @@ for pro in problems:
     for subtask in sorted(subtasks.values(), key=lambda v: v['index']):
         if subtask['index'] == 0:
             continue
-        all_subtasks[pro].append((subtask['score'], subtask['text']))
+        all_subtasks[pro].append((subtask['score'], subtask['index']))
 
     max_subtask = max(max_subtask, len(all_subtasks[pro]))
 
