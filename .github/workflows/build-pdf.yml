@@ -18,8 +18,6 @@ on:
 jobs:
   pre-build:
     runs-on: ${{ inputs.runs-on }}
-    container:
-      options: --user root
     timeout-minutes: 3
     outputs:
       problems: ${{ steps.run-problems.outputs.problemsjson }}
