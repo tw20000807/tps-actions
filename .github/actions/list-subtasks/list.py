@@ -34,7 +34,7 @@ output += '\n'
 for pro in problems:
     output += '| {} |'.format(pro)
     for subtask in all_subtasks[pro]:
-        output += ' {}<br>{} |'.format(subtask[0], subtask[1])
+        output += ' {} |'.format(subtask[0])
     output += '\n'
 
 reportpath = os.environ.get('REPORTPATH')
