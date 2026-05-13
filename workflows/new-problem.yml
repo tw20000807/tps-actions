@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'problem name?'
+        description: 'problem name? (only allow a-z and _)'
         required: true
 
 jobs:
   run:
     uses: tw20000807/tps-actions/.github/workflows/new-problem.yml@main
     with:
-      name: ${{ fromJson(github.event.inputs.name) }}
+      name: ${{ github.event.inputs.name }}
