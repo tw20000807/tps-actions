@@ -55,8 +55,7 @@ for pro in problems:
 
 # problem info
 keys = [
-    'contest_name',
-    'problem_label',
+    'code',
     'name',
     'title',
 ]

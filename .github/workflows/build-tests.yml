@@ -98,7 +98,7 @@ jobs:
         working-directory: ${{ matrix.problem }}
         run: |
           echo "Building input for ${{ matrix.problem }}"
-          tps gen -s
+          tps gen
           git status
           git add gen/data
           git add tests/*.in
