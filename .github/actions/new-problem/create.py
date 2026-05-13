@@ -5,7 +5,7 @@ import subprocess
 
 os.chdir(os.environ.get('GITHUB_WORKSPACE'))
 
-name = int(os.environ.get('PROBLEMNAME'))
+name = os.environ.get('PROBLEMNAME')
 
 
 
