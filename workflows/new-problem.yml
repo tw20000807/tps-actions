@@ -5,6 +5,7 @@ on:
     inputs:
       name:
         description: 'problem name?'
+        required: true
 
 jobs:
   run:
