@@ -6,6 +6,7 @@ on:
       name:
         description: 'problem name?'
         required: true
+        type: string
       runs-on:
         default: 'ubuntu-latest'
         required: false
