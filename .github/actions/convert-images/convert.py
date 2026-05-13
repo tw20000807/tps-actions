@@ -12,8 +12,8 @@ with open('.problems.json', 'r', encoding='utf8') as f:
     problems = json.load(f)
 
 for pro in problems:
-    print('Enter p{}/statement'.format(pro))
-    os.chdir('p{}/statement'.format(pro))
+    print('Enter {}/statement'.format(pro))
+    os.chdir('{}/statement'.format(pro))
 
     idx = 0
     content = open('index.md', 'r', encoding='utf8').read()

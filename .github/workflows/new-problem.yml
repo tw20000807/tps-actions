@@ -3,10 +3,9 @@ name: New problem
 on:
   workflow_call:
     inputs:
-      count:
-        description: 'How many problems in this contest?'
+      name:
+        description: 'problem name?'
         required: true
-        type: number
       runs-on:
         default: 'ubuntu-latest'
         required: false
@@ -20,18 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/install-tps@main
+      - uses: tw20000807/tps-actions/.github/actions/install-tps@main
         if: ${{ runner.name == 'Hosted Agent' || startsWith(runner.name, 'GitHub Actions') || startsWith(runner.name, 'Github-Actions') }}
 
       - name: Download templates
         uses: actions/checkout@v3
         with:
-          repository: 'TNFSH-Programming-Contest/tps-task-templates'
+          repository: 'tw20000807/tps-task-templates'
           path: 'tps-task-templates'
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/new-problem@main
+      - uses: tw20000807/tps-actions/.github/actions/new-problem@main
         with:
-          problem-count: ${{ inputs.count }}
+          name: ${{ inputs.name }}
 
       - name: Commit and Push
         run: |

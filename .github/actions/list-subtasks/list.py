@@ -9,7 +9,7 @@ with open('.problems.json', 'r', encoding='utf8') as f:
 all_subtasks = {}
 max_subtask = 0
 for pro in problems:
-    with open('p{}/subtasks.json'.format(pro), 'r', encoding='utf8') as f:
+    with open('{}/subtasks.json'.format(pro), 'r', encoding='utf8') as f:
         subtasks = json.load(f)['subtasks']
 
     all_subtasks[pro] = []

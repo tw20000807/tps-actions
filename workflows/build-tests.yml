@@ -14,13 +14,13 @@ on:
   workflow_dispatch:
     inputs:
       input:
-        description: 'Problem labels to build inputs'
+        description: 'Problem name to build inputs'
         default: ''
       output:
-        description: 'Problem labels to build outputs'
+        description: 'Problem name to build outputs'
         default: ''
       solutions:
-        description: 'Problem labels to run solutions'
+        description: 'Problem name to run solutions'
         default: ''
 
 jobs:

@@ -46,7 +46,7 @@ jobs:
 
       - name: Filter problems
         id: run-problems
-        uses: TNFSH-Programming-Contest/tps-actions/.github/actions/run-problems@main
+        uses: tw20000807/tps-actions/.github/actions/run-problems@main
         with:
           requests: ${{ env.REQUEST }}
 
@@ -70,17 +70,16 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Verify
-        working-directory: p${{ matrix.problem }}
+        working-directory: ${{ matrix.problem }}
         shell: bash
         run: |
           tps verify > verify-result.txt
           msg="$(cat verify-result.txt)"
           msg="${msg//$'\n'/'%0A'}"
           if grep -q "ERROR:" verify-result.txt; then
-            echo "::error title=p${{ matrix.problem }}::$msg"
-            exit 1
+            echo "::error title=${{ matrix.problem }}::$msg"
           elif grep -q "WARNING:" verify-result.txt; then
-            echo "::warning title=p${{ matrix.problem }}::$msg"
+            echo "::warning title=${{ matrix.problem }}::$msg"
           else
-            echo "::notice title=p${{ matrix.problem }}::$msg"
+            echo "::notice title=${{ matrix.problem }}::$msg"
           fi

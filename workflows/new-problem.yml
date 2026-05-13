@@ -3,11 +3,11 @@ name: New problem
 on:
   workflow_dispatch:
     inputs:
-      count:
-        description: 'How many problems in this contest?'
+      name:
+        description: 'problem name?'
 
 jobs:
   run:
     uses: tw20000807/tps-actions/.github/workflows/new-problem.yml@main
     with:
-      count: ${{ fromJson(github.event.inputs.count) }}
+      name: ${{ fromJson(github.event.inputs.name) }}

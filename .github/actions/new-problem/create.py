@@ -5,17 +5,9 @@ import subprocess
 
 os.chdir(os.environ.get('GITHUB_WORKSPACE'))
 
-prob_cnt = int(os.environ.get('PROBLEMCOUNT'))
+name = int(os.environ.get('PROBLEMNAME'))
 
-try:
-    prob_cnt = int(prob_cnt)
-except:
-    print('Please input a number')
-    exit(1)
 
-if prob_cnt < 1 or prob_cnt > 26:
-    print('Must be 1 ~ 26')
-    exit(1)
 
 with open('.problems.json', 'r', encoding='utf8') as f:
     problems = json.load(f)
@@ -29,34 +21,34 @@ with open('README.md', 'r', encoding='utf8') as f:
 with open('_config.yml', 'r', encoding='utf8') as f:
     jekyll_config = f.read()
 
-for i in range(prob_cnt):
-    label = chr(ord('A') + i)
-    path = 'p{}'.format(label)
-    if not os.path.exists(path):
-        subprocess.run(['tps', 'init', path, '-T', 'tps-task-templates', '-t', 'default'])
+label = name
+path = '{}'.format(label)
+if not os.path.exists(path):
+    subprocess.run(['tps', 'init', path, '-T', 'tps-task-templates', '-t', 'default'])
 
-        with open('{}/problem.json'.format(path), 'r', encoding='utf8') as f:
-            data = json.load(f)
-        data['problem_label'] = label
-        with open('{}/problem.json'.format(path), 'w', encoding='utf8') as f:
-            f.write(json.dumps(data, indent='\t', ensure_ascii=False))
-            f.write('\n')
+    with open('{}/problem.json'.format(path), 'r', encoding='utf8') as f:
+        data = json.load(f)
+    data['name'] = label
+    data['code'] = label
+    with open('{}/problem.json'.format(path), 'w', encoding='utf8') as f:
+        f.write(json.dumps(data, indent='\t', ensure_ascii=False))
+        f.write('\n')
 
-        subprocess.run(['git', 'add', path])
+    subprocess.run(['git', 'add', path])
 
-        problems.append(label)
+    problems.append(label)
 
-        makefile = makefile.replace('# NEWPROBLEM', 'import-{0}:\n\tcmsImportTask ./{0}/ -u $(if $(s), , --no-statement)\n\n# NEWPROBLEM'.format(path))
+    makefile = makefile.replace('# NEWPROBLEM', 'import-{0}:\n\tcmsImportTask ./{0}/ -u $(if $(s), , --no-statement)\n\n# NEWPROBLEM'.format(path))
 
-        readme = re.sub(
-            '\n*<!-- new problem -->',
-            '\n| {0} | [statement]({1}/statement) [md]({1}/statement/index.md) [pdf]({1}/statement/index.pdf) | [gen]({1}/gen) | [validator]({1}/validator) | [solution]({1}/solution) [check]({1}/solutions-check.txt) | [tests]({1}/tests) | [problem]({1}/problem.json) [solutions]({1}/solutions.json) [subtasks]({1}/subtasks.json) |\n\n<!-- new problem -->'.format(label, path),
-            readme
-        )
+    readme = re.sub(
+        '\n*<!-- new problem -->',
+        '\n| {0} | [statement]({1}/statement) [md]({1}/statement/index.md) [pdf]({1}/statement/index.pdf) | [gen]({1}/gen) | [validator]({1}/validator) | [solution]({1}/solution) [check]({1}/solutions-check.txt) | [tests]({1}/tests) | [problem]({1}/problem.json) [solutions]({1}/solutions.json) [subtasks]({1}/subtasks.json) |\n\n<!-- new problem -->'.format(label, path),
+        readme
+    )
 
-        jekyll_config = jekyll_config.replace('# NEWPROBLEM', '  - p{0}/scripts/\n  - p{0}/tests/\n# NEWPROBLEM'.format(label))
-    else:
-        print('{} is exists'.format(path))
+    jekyll_config = jekyll_config.replace('# NEWPROBLEM', '  - {0}/scripts/\n  - {0}/tests/\n# NEWPROBLEM'.format(label))
+else:
+    print('{} is exists'.format(path))
 
 with open('.problems.json', 'w', encoding='utf8') as f:
     json.dump(problems, f)

@@ -4,15 +4,15 @@ on:
   workflow_call:
     inputs:
       input:
-        description: 'Problem labels to build inputs'
+        description: 'Problem name to build inputs'
         type: string
         default: ''
       output:
-        description: 'Problem labels to build outputs'
+        description: 'Problem name to build outputs'
         type: string
         default: ''
       solutions:
-        description: 'Problem labels to run solutions'
+        description: 'Problem name to run solutions'
         type: string
         default: ''
       runs-on:
@@ -27,9 +27,6 @@ on:
 jobs:
   pre-build:
     runs-on: ${{ inputs.runs-on }}
-    container:
-      image: tobiichi3227/tps-github-runner
-      options: --user root
     timeout-minutes: 3
     outputs:
       problems: ${{ steps.run-problems.outputs.problemsjson }}
@@ -45,7 +42,7 @@ jobs:
       - name: Get changes
         if: github.event_name == 'push'
         id: changes
-        uses: tobiichi3227/tps-actions/.github/actions/get-changes@main
+        uses: tw20000807/tps-actions/.github/actions/get-changes@main
 
       - name: Check push
         if: github.event_name == 'push'
@@ -68,7 +65,7 @@ jobs:
 
       - name: Filter problems
         id: run-problems
-        uses: TNFSH-Programming-Contest/tps-actions/.github/actions/run-problems@main
+        uses: tw20000807/tps-actions/.github/actions/run-problems@main
         with:
           requests: ${{ env.REQUEST }}
 
@@ -98,7 +95,7 @@ jobs:
 
       - name: Build inputs and outputs
         if: contains(needs.pre-build.outputs.input, matrix.problem)
-        working-directory: p${{ matrix.problem }}
+        working-directory: ${{ matrix.problem }}
         run: |
           echo "Building input for ${{ matrix.problem }}"
           tps gen -s
@@ -116,7 +113,7 @@ jobs:
 
       - name: Build outputs
         if: contains(needs.pre-build.outputs.output, matrix.problem) && !contains(needs.pre-build.outputs.input, matrix.problem)
-        working-directory: p${{ matrix.problem }}
+        working-directory: ${{ matrix.problem }}
         run: |
           echo "Building output for ${{ matrix.problem }}"
           tps gen -s --no-gen
@@ -133,7 +130,7 @@ jobs:
         run: |
           set +e
 
-          git diff ${{ github.sha }}..HEAD --quiet p${{ matrix.problem }}/tests/*.in p${{ matrix.problem }}/tests/*.out
+          git diff ${{ github.sha }}..HEAD --quiet ${{ matrix.problem }}/tests/*.in ${{ matrix.problem }}/tests/*.out
           if [ $? -ne 0 ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Tests changed"
@@ -143,7 +140,7 @@ jobs:
 
       - name: Run solutions
         if: contains(needs.pre-build.outputs.solutions, matrix.problem) || steps.tests-changes.outputs.changed == 'true'
-        working-directory: p${{ matrix.problem }}
+        working-directory: ${{ matrix.problem }}
         run: |
           echo "Run solutions for ${{ matrix.problem }}"
           rm -f solutions-check.txt
@@ -151,5 +148,5 @@ jobs:
           git status
           git add solutions-check.txt
           git pull
-          git diff --cached --quiet || git commit -m "p${{ matrix.problem }} Run solutions"
+          git diff --cached --quiet || git commit -m "${{ matrix.problem }} Run solutions"
           git push

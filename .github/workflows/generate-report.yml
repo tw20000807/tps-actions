@@ -24,15 +24,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/check-progress@main
+      - uses: tw20000807/tps-actions/.github/actions/check-progress@main
         with:
           report-path: ${{ inputs.report-path }}
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/list-subtasks@main
+      - uses: tw20000807/tps-actions/.github/actions/list-subtasks@main
         with:
           report-path: ${{ inputs.report-path }}
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/list-scores@main
+      - uses: tw20000807/tps-actions/.github/actions/list-scores@main
         with:
           report-path: ${{ inputs.report-path }}
           group-size: ${{ inputs.group-size }}

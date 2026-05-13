@@ -11,7 +11,7 @@ scores = {}
 allSubtasks = []
 for pro in problems:
     scores[pro] = {}
-    with open(os.path.join('p' + pro, 'subtasks.json'), 'r', encoding='utf8') as f:
+    with open(os.path.join(pro, 'subtasks.json'), 'r', encoding='utf8') as f:
         subtasks = json.load(f)
         for subid, subtask in subtasks['subtasks'].items():
             scores[pro][subtask['index'] + 1] = subtask['score']

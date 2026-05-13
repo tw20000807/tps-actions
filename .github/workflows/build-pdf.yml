@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       problems:
-        description: 'Problem labels to build (A-Z)'
+        description: 'Problem name to build, If multiple, use spaces as separators.'
         default: ''
         type: string
       merge:
@@ -74,7 +74,6 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Check environment
-        working-directory: pA
         run: |
           echo ""
           pandoc -v
@@ -92,7 +91,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-      - uses: TNFSH-Programming-Contest/tps-actions/.github/actions/convert-images@main
+      - uses: tw20000807/tps-actions/.github/actions/convert-images@main
 
       - name: Commit images
         run: |
@@ -105,39 +104,18 @@ jobs:
         run: |
           for prob in ${{ needs.pre-build.outputs.pdf }}; do
             echo "Build $prob"
-            cd p${prob} && make statement && git add statement/index.pdf && cd ..
+            cd ${prob} && make statement && git add statement/index.pdf && cd ..
           done
-
-      - name: Merge cover into pA
-        if: contains(needs.pre-build.outputs.pdf, 'A') && hashFiles('cover.tex') != ''
-        run: |
-          xelatex cover.tex
-          pdfunite cover.pdf pA/statement/index.pdf pA/statement/index-with-cover.pdf
-          rm pA/statement/index.pdf
-          mv pA/statement/index-with-cover.pdf pA/statement/index.pdf
-          git add pA/statement/index.pdf
-
-      - name: Merge appendix into last problem
-        if: contains(needs.pre-build.outputs.pdf, needs.pre-build.outputs.lastproblem) && hashFiles('appendix.tex') != ''
-        env:
-          LASTPROBLEM: p${{ needs.pre-build.outputs.lastproblem }}/statement/index.pdf
-          TEMPPATH: p${{ needs.pre-build.outputs.lastproblem }}/statement/index-with-appendix.pdf
-        run: |
-          xelatex appendix.tex
-          pdfunite $LASTPROBLEM appendix.pdf $TEMPPATH
-          rm $LASTPROBLEM
-          mv $TEMPPATH $LASTPROBLEM
-          git add $LASTPROBLEM
 
       - name: Get problems
         id: all-problems
-        uses: TNFSH-Programming-Contest/tps-actions/.github/actions/get-problems@main
+        uses: tw20000807/tps-actions/.github/actions/get-problems@main
 
       - name: Merge pdfs
         if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.merge)
         run: |
           make merge-pdfs
-          git add pA/attachments/problems.pdf
+          git add /attachments/problems.pdf
 
       - name: Commit pdf
         run: |

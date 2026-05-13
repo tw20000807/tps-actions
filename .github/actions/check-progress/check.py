@@ -44,13 +44,13 @@ output += '\n'
 # problem.json
 problemjson = {}
 for pro in problems:
-    with open('p{}/problem.json'.format(pro), 'r', encoding='utf8') as f:
+    with open('{}/problem.json'.format(pro), 'r', encoding='utf8') as f:
         problemjson[pro] = json.load(f)
 
 # subtasks.json
 subtasksjson = {}
 for pro in problems:
-    with open('p{}/subtasks.json'.format(pro), 'r', encoding='utf8') as f:
+    with open('{}/subtasks.json'.format(pro), 'r', encoding='utf8') as f:
         subtasksjson[pro] = json.load(f)
 
 # problem info
@@ -70,7 +70,7 @@ for key in keys:
             icon = ':white_check_mark:'
             if key not in ['contest_name', 'problem_label']:
                 text = '<br>{}'.format(problemjson[pro][key])
-        output += ' [{}](p{}/problem.json){} |'.format(icon, pro, text)
+        output += ' [{}]({}/problem.json){} |'.format(icon, pro, text)
     output += '\n'
 
 keys = [
@@ -94,7 +94,7 @@ for folder in folders:
     output += '| {} |'.format(folder)
     for pro in problems:
         todos = []
-        for file in glob.glob('p{}/{}/**'.format(pro, folder), recursive=True):
+        for file in glob.glob('{}/{}/**'.format(pro, folder), recursive=True):
             if os.path.isdir(file):
                 continue
             with open(file, 'r', encoding='utf8') as f:
@@ -106,9 +106,9 @@ for folder in folders:
                 if 'TODO' in content:
                     todos.append(file)
         if len(todos) == 0:
-            output += ' [:white_check_mark:](p{}/{}) |'.format(pro, folder)
+            output += ' [:white_check_mark:]({}/{}) |'.format(pro, folder)
         else:
-            output += ' [:x:](p{}/{})'.format(pro, folder)
+            output += ' [:x:]({}/{})'.format(pro, folder)
             for file in todos:
                 output += '<br>[{}]({})'.format(os.path.basename(file), file)
             output += ' |'
@@ -123,45 +123,45 @@ for pro in problems:
     else:
         icon = ':white_check_mark:'
         text = ''
-    output += ' [{}](p{}/subtasks.json){} |'.format(icon, pro, text)
+    output += ' [{}]({}/subtasks.json){} |'.format(icon, pro, text)
 output += '\n'
 
 # tests
 output += '| tests |'
 for pro in problems:
-    if os.path.exists('p{}/tests/0-01.in'.format(pro)):
+    if os.path.exists('{}/tests/0-01.in'.format(pro)):
         icon = ':white_check_mark:'
     else:
         icon = ':x:'
     auto = ''
-    if os.path.exists('p{}/gen/DISABLE_AUTO_BUILD'.format(pro)):
-        auto = '<br>[Auto build disabled](p{}/gen/DISABLE_AUTO_BUILD)'.format(pro)
-    output += ' [{}](p{}/tests){} |'.format(icon, pro, auto)
+    if os.path.exists('{}/gen/DISABLE_AUTO_BUILD'.format(pro)):
+        auto = '<br>[Auto build disabled]({}/gen/DISABLE_AUTO_BUILD)'.format(pro)
+    output += ' [{}]({}/tests){} |'.format(icon, pro, auto)
 output += '\n'
 
 # statement
 output += '| statement/index.md |'
 for pro in problems:
-    with open('p{}/statement/index.md'.format(pro), 'r', encoding='utf8') as f:
+    with open('{}/statement/index.md'.format(pro), 'r', encoding='utf8') as f:
         content = f.read()
 
     if 'TODO' in content:
         icon = ':x:'
     else:
         icon = ':white_check_mark:'
-    output += ' [{}](p{}/statement/index.md) |'.format(icon, pro)
+    output += ' [{}]({}/statement/index.md) |'.format(icon, pro)
 output += '\n'
 
 output += '| statement/index.pdf |'
 for pro in problems:
-    if os.path.exists('p{}/statement/index.pdf'.format(pro)):
+    if os.path.exists('{}/statement/index.pdf'.format(pro)):
         icon = ':white_check_mark:'
     else:
         icon = ':x:'
     auto = ''
-    if os.path.exists('p{}/statement/DISABLE_AUTO_BUILD'.format(pro)):
-        auto = '<br>[Auto build disabled](p{}/statement/DISABLE_AUTO_BUILD)'.format(pro)
-    output += ' [{}](p{}/statement/index.pdf){} |'.format(icon, pro, auto)
+    if os.path.exists('{}/statement/DISABLE_AUTO_BUILD'.format(pro)):
+        auto = '<br>[Auto build disabled]({}/statement/DISABLE_AUTO_BUILD)'.format(pro)
+    output += ' [{}]({}/statement/index.pdf){} |'.format(icon, pro, auto)
 output += '\n'
 
 output = output.lstrip()
