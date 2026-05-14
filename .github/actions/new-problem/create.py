@@ -40,11 +40,6 @@ for name in prob_names :
 
         makefile = makefile.replace('# NEWPROBLEM', 'import-{0}:\n\tcmsImportTask ./{0}/ -u $(if $(s), , --no-statement)\n\n# NEWPROBLEM'.format(path))
 
-        readme = re.sub(
-            '\n*<!-- new problem -->',
-            '\n| {0} | [statement]({1}/statement) [md]({1}/statement/index.md) [pdf]({1}/statement/index.pdf) | [gen]({1}/gen) | [validator]({1}/validator) | [solution]({1}/solution) [check]({1}/solutions-check.txt) | [tests]({1}/tests) | [problem]({1}/problem.json) [solutions]({1}/solutions.json) [subtasks]({1}/subtasks.json) |\n\n<!-- new problem -->'.format(label, path),
-            readme
-        )
 
         jekyll_config = jekyll_config.replace('# NEWPROBLEM', '  - {0}/scripts/\n  - {0}/tests/\n# NEWPROBLEM'.format(label))
     else:

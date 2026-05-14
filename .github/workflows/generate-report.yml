@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       report-path:
-        default: 'report.md'
+        default: 'README.md'
         required: false
         type: string
       group-size:
