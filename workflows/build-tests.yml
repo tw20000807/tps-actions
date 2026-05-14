@@ -12,16 +12,6 @@ on:
       - '*/solutions.json'
       - '*/subtasks.json'
   workflow_dispatch:
-    inputs:
-      input:
-        description: 'Problem name to build inputs'
-        default: ''
-      output:
-        description: 'Problem name to build outputs'
-        default: ''
-      solutions:
-        description: 'Problem name to run solutions'
-        default: ''
 
 jobs:
   run:

@@ -15,14 +15,6 @@ on:
       - 'cover.tex'
       - 'template.tex'
   workflow_dispatch:
-    inputs:
-      problems:
-        description: 'Problem name to build, If multiple, use spaces as separators.'
-        default: ''
-      merge:
-        description: 'Merge pdfs?'
-        default: false
-        type: boolean
 
 jobs:
   run:

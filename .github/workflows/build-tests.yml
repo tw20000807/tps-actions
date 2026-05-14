@@ -3,18 +3,6 @@ name: Build tests
 on:
   workflow_call:
     inputs:
-      input:
-        description: 'Problem name to build inputs'
-        type: string
-        default: ''
-      output:
-        description: 'Problem name to build outputs'
-        type: string
-        default: ''
-      solutions:
-        description: 'Problem name to run solutions'
-        type: string
-        default: ''
       runs-on:
         default: 'ubuntu-latest'
         required: false
@@ -55,13 +43,17 @@ jobs:
           echo "REQOUT=${{ fromJson(steps.changes.outputs.changes).output }}" >> $GITHUB_ENV
           echo "REQSOL=${{ fromJson(steps.changes.outputs.changes).solutions }}" >> $GITHUB_ENV
 
+      - name: Get problems
+        id: all-problems
+        uses: tw20000807/tps-actions/.github/actions/get-problems@main
+
       - name: Check dispatch
         if: github.event_name == 'workflow_dispatch'
         run: |
-          echo "REQUEST=${{ inputs.input }}${{ inputs.output }}${{ inputs.solutions }}" >> $GITHUB_ENV
-          echo "REQIN=${{ inputs.input }}" >> $GITHUB_ENV
-          echo "REQOUT=${{ inputs.output }}" >> $GITHUB_ENV
-          echo "REQSOL=${{ inputs.solutions }}" >> $GITHUB_ENV
+          echo "REQUEST=${{ steps.all-problems.outputs.problems }}${{ steps.all-problems.outputs.problems }}${{ steps.all-problems.outputs.problems }}" >> $GITHUB_ENV
+          echo "REQIN=${{ steps.all-problems.outputs.problems }}" >> $GITHUB_ENV
+          echo "REQOUT=${{ steps.all-problems.outputs.problems }}" >> $GITHUB_ENV
+          echo "REQSOL=${{ steps.all-problems.outputs.problems }}" >> $GITHUB_ENV
 
       - name: Filter problems
         id: run-problems
