@@ -112,7 +112,7 @@ jobs:
         if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch')
         run: |
           make merge-pdfs
-          git add attachments/problems.pdf
+          git add problems.pdf
 
       - name: Commit pdf
         run: |

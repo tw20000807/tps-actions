@@ -20,6 +20,3 @@ jobs:
   run:
     if: ${{ github.repository != 'tw20000807/tps-starter' }}
     uses: tw20000807/tps-actions/.github/workflows/build-pdf.yml@main
-    with:
-      problems: ${{ inputs.problems }}
-      merge: ${{ inputs.merge && fromJson(inputs.merge) || false }}

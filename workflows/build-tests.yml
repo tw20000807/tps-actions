@@ -16,7 +16,3 @@ on:
 jobs:
   run:
     uses: tw20000807/tps-actions/.github/workflows/build-tests.yml@main
-    with:
-      input: ${{ github.event.inputs.input }}
-      output: ${{ github.event.inputs.output }}
-      solutions: ${{ github.event.inputs.solutions }}
