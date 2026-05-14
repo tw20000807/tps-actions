@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: 'problem name? (only allow a-z and A-Z)'
+        description: 'Problem name? (Only A-Z or a-z allowed; use spaces to separate multiple problems)'
         required: true
 
 jobs:
