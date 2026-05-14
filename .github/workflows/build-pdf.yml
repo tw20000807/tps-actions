@@ -100,22 +100,23 @@ jobs:
           git diff-index --quiet HEAD -- || git commit -m "Compress images"
           git push
 
+      - name: Get problems
+        id: all-problems
+        uses: tw20000807/tps-actions/.github/actions/get-problems@main
+
       - name: Build pdfs
         run: |
-          for prob in ${{ needs.pre-build.outputs.pdf }}; do
+          for prob in ${{ steps.all-problems.outputs.problems }}; do
             echo "Build $prob"
             cd ${prob} && make statement && git add statement/index.pdf && cd ..
           done
 
-      - name: Get problems
-        id: all-problems
-        uses: tw20000807/tps-actions/.github/actions/get-problems@main
 
       - name: Merge pdfs
         if: (github.event_name == 'push') || (github.event_name == 'workflow_dispatch' && inputs.merge)
         run: |
           make merge-pdfs
-          git add /attachments/problems.pdf
+          git add attachments/problems.pdf
 
       - name: Commit pdf
         run: |
