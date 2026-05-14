@@ -3,15 +3,12 @@
 
 name: template_initialization
 on:
-  push:
-    branches:
-      - '**'
   workflow_dispatch:
 
 jobs:
   template_initialization:
     runs-on: ubuntu-latest
-    if: ${{ github.event.created && github.repository != 'tw20000807/tps-starter' }}
+    if: ${{ github.repository != 'tw20000807/tps-starter' }}
     steps:
 
       - uses: actions/checkout@v3
