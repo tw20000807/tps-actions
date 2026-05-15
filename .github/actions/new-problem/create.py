@@ -7,19 +7,19 @@ os.chdir(os.environ.get('GITHUB_WORKSPACE'))
 
 prob_names = os.environ.get('PROBLEMNAME', '').split()
 
+with open('.problems.json', 'r', encoding='utf8') as f:
+    problems = json.load(f)
+
+with open('Makefile', 'r', encoding='utf8') as f:
+    makefile = f.read()
+
+with open('README.md', 'r', encoding='utf8') as f:
+    readme = f.read()
+
+with open('_config.yml', 'r', encoding='utf8') as f:
+    jekyll_config = f.read()
 
 for name in prob_names :
-    with open('.problems.json', 'r', encoding='utf8') as f:
-        problems = json.load(f)
-
-    with open('Makefile', 'r', encoding='utf8') as f:
-        makefile = f.read()
-
-    with open('README.md', 'r', encoding='utf8') as f:
-        readme = f.read()
-
-    with open('_config.yml', 'r', encoding='utf8') as f:
-        jekyll_config = f.read()
 
     label = name
     path = '{}'.format(label)
